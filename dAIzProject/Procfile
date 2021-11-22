@@ -1,0 +1,1 @@
+web: gunicorn dAIzProject.wsgi --log-file -
