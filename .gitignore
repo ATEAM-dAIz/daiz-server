@@ -1,5 +1,5 @@
 __pycache__
-daizvenv/
+myvenv/
 db.sqlite3
 migrations/
 secret.json
