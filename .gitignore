@@ -1,0 +1,6 @@
+__pycache__
+daizvenv/
+db.sqlite3
+migrations/
+secret.json
+media/
