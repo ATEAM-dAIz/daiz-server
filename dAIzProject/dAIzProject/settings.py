@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-mikh-##t3_jl5h7ov0-*!y1mmplrde7inf(1d&!6k%h099z%h%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,8 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites', # 회원가입
     'dAIzApp',
     'rest_framework',
+    
+    'allauth', # 회원가입
+    'allauth.account', # 회원가입
+    'rest_auth',
+    'rest_framework.authtoken',
+    'rest_auth.registration', # 회원가입
 ]
 
 MIDDLEWARE = [
@@ -133,3 +140,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # django_heroku.settings(locals())
 
 AUTH_USER_MODEL = 'dAIzApp.User'
+
+SITE_ID = 1
+
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_REQUIRED = (True)
