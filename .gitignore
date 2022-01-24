@@ -4,3 +4,4 @@ db.sqlite3
 migrations/
 secret.json
 media/
+daizvenv/
