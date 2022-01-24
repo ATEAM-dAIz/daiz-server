@@ -1,10 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from .managers import CustomUserManager
 
 # Create your models here.
 
-class Review(models.Model):
+class Diary(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField()
     updated_at = models.DateTimeField(auto_now=True)

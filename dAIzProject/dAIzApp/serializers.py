@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Review, User, Diary, Ai
+from .models import Diary, User, Diary, Ai
 from dj_rest_auth.serializers import LoginSerializer as RestAuthLoginSerializer
 
 from allauth.account import app_settings as allauth_settings
@@ -7,11 +7,6 @@ from allauth.utils import email_address_exists
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
 
-class ReviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Review
-        fields = ('id', 'title', 'content', 'updated_at')
-        
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
