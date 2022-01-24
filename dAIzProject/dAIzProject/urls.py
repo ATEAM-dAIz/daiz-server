@@ -19,6 +19,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('dAIzApp.urls')),
-    path('signup/', include('rest_auth.registration.urls')),
-    
+    path('', include('dj_rest_auth.urls')), # 로그인, 로그아웃
+    path('', include('allauth.urls')),
 ]
