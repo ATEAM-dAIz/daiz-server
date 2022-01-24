@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Review, User, Diary, Ai
 from rest_framework_simplejwt.tokens import RefreshToken
+from dj_rest_auth.serializers import LoginSerializer as RestAuthLoginSerializer
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,6 +21,9 @@ class CustomTokenRefreshSerializer(serializers.Serializer):
         data = {'access_token': str(refresh.access_token)}
 
         return data
+
+class LoginSerializer(RestAuthLoginSerializer):
+    username = None
 
 class DiarySerializer(serializers.ModelSerializer):
     class Meta:

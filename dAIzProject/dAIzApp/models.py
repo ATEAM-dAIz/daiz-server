@@ -10,14 +10,14 @@ class Review(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
 class User(AbstractUser):
-    id = models.BigAutoField(primary_key=True)
-    email = models.EmailField(verbose_name='email', unique=True)
+    username = None
+    email = models.EmailField(primary_key=True, verbose_name='email', unique=True)
     name = models.CharField(default="", max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    objects = CustomUserManager()
+    # objects = CustomUserManager()
 
     USERNAME_FIELD = 'email' # email로 로그인
     REQUIRED_FIELDS = ['name']
@@ -37,7 +37,7 @@ class User(AbstractUser):
     
 class Diary(models.Model):
     id = models.BigAutoField(primary_key=True)
-    uid = models.ForeignKey('User', related_name='user', on_delete=models.CASCADE, db_column='uid')
+    user = models.ForeignKey('User', related_name='user', on_delete=models.CASCADE, db_column='user')
     title = models.CharField(max_length=50, default='제목 없음')
     content = models.TextField(max_length=200, blank=False, null=False)
     updated_at = models.DateTimeField(auto_now=True)
