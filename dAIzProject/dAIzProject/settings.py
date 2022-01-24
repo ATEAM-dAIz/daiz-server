@@ -154,6 +154,8 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 
 REST_USE_JWT = True
+JWT_AUTH_COOKIE = 'auth-cookie'
+ACCOUNT_LOGOUT_ON_GET = True
 
 from datetime import timedelta
 SIMPLE_JWT = {
