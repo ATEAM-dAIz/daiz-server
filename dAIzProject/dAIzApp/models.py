@@ -17,13 +17,12 @@ class User(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    # objects = CustomUserManager()
 
     USERNAME_FIELD = 'email' # email로 로그인
     REQUIRED_FIELDS = ['name']
 
     def __str__(self):
-        return str(self.id)
+        return str(self.email)
 
     def has_perm(self, perm, obj=None):
         return True

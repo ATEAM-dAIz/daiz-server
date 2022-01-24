@@ -161,6 +161,7 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
+    'USER_ID_FIELD': 'email',
 }
 
 AUTHENTICATION_BACKENDS = (
@@ -180,5 +181,6 @@ REST_FRAMEWORK = {
     ),
 }
 
+REST_AUTH_REGISTER_SERIALIZERS = {'REGISTER_SERIALIZER': 'dAIzApp.serializers.RegisterSerializer',}
 REST_AUTH_SERIALIZERS = {'LOGIN_SERIALIZER': 'dAIzApp.serializers.LoginSerializer'}
 
