@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from .managers import CustomUserManager
 
 # Create your models here.
 
@@ -16,6 +17,7 @@ class User(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    objects = CustomUserManager()
 
     USERNAME_FIELD = 'email' # email로 로그인
     REQUIRED_FIELDS = ['name']
