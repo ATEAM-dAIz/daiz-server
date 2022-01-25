@@ -4,8 +4,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import Http404
 
-from .serializers import DiarySerializer
-from .models import Diary
+from .serializers import DiarySerializer, AiSerializer
+from .models import Diary, Ai
 
 # Create your views here.
 
@@ -40,3 +40,17 @@ class DiaryDetail(APIView):
         diary = self.get_object(pk)
         diary.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+#-------------------------------------------------------------------------------------------------
+    
+class AiDetail(APIView):
+    def get_object(self, pk): # Ai 응답 객체 가져오기
+        try:
+            return Ai.obejcts.get(pk=pk)
+        except Ai.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None): # detail 보기
+        ai = self.get_object(pk)
+        serializer = AiSerializer(ai)
+        return Response(serializer.data)
