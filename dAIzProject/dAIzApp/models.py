@@ -3,11 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from .managers import CustomUserManager
 
 # Create your models here.
-
-class Diary(models.Model):
-    title = models.CharField(max_length=50)
-    content = models.TextField()
-    updated_at = models.DateTimeField(auto_now=True)
     
 class User(AbstractUser):
     username = None
@@ -17,7 +12,7 @@ class User(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    objects = CustomUserManager()
+    objects = CustomUserManager() # DB 쿼리와 연동되는 인터페이스
 
     USERNAME_FIELD = 'email' # email로 로그인
     REQUIRED_FIELDS = ['name']
