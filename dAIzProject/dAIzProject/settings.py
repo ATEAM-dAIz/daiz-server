@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -21,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-mikh-##t3_jl5h7ov0-*!y1mmplrde7inf(1d&!6k%h099z%h%'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -49,10 +50,13 @@ INSTALLED_APPS = [
     
     'rest_framework.authtoken',
     'rest_framework_simplejwt.token_blacklist', # 토큰 관리
+    
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     # 'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware', #최상단에
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -61,6 +65,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_WHITELIST = ('http://127.0.0.1:3000', 'http://localhost:3000', 'http://localhost:127', 'http://localhost:50264')
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'dAIzProject.urls'
 
@@ -154,7 +161,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 
 REST_USE_JWT = True
-JWT_AUTH_COOKIE = 'auth-cookie'
+JWT_AUTH_COOKIE = 'daiz-auth'
 ACCOUNT_LOGOUT_ON_GET = True
 
 from datetime import timedelta
@@ -174,6 +181,10 @@ AUTHENTICATION_BACKENDS = (
 )
 
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ( 
+        # 헤더에 access token을 포함하여 유효한 유저만이 접근이 가능
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',

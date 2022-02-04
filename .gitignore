@@ -5,3 +5,4 @@ migrations/
 secret.json
 media/
 daizvenv/
+.env
