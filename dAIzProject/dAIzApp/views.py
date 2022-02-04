@@ -2,6 +2,9 @@ from django.shortcuts import render
 from rest_framework import serializers, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import permission_classes, authentication_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
 from django.http import Http404
 import json
 
@@ -12,9 +15,12 @@ from dAIzApp.ai.daiz import Situation, Emotion, Comment
 
 # Create your views here.
 
+@permission_classes((IsAuthenticated, ))
+@authentication_classes((JWTTokenUserAuthentication,))
 class DiaryList(APIView): # 목록 보여줌
     def get(self, request): # 리스트 보여줄 때
-        diaries = Diary.objects.all()
+        print(request.user.pk)
+        diaries = Diary.objects.filter(user = request.user.pk)
 
         serializers = DiarySerializer(diaries, many=True) # 여러개 객체 serialize하려면 many=Ture
         return Response(serializers.data)
@@ -44,6 +50,8 @@ class DiaryList(APIView): # 목록 보여줌
             return Response(serializer_Diary.data, status=status.HTTP_201_CREATED)
         return Response(serializer_Diary.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@permission_classes((IsAuthenticated, ))
+@authentication_classes((JWTTokenUserAuthentication,))
 class DiaryDetail(APIView):
     def get_object(self, pk): # 일기 객체 가져오기
         try:
@@ -63,6 +71,8 @@ class DiaryDetail(APIView):
 
 #-------------------------------------------------------------------------------------------------
 
+@permission_classes((IsAuthenticated, ))
+@authentication_classes((JWTTokenUserAuthentication,))
 class AiDetail(APIView):
     def get_object(self, pk): # Ai 응답 객체 가져오기
         try:
