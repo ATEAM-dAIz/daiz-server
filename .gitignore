@@ -6,3 +6,7 @@ secret.json
 media/
 daizvenv/
 .env
+comment.pt
+emotion.pt
+situation.pt
+.cache
