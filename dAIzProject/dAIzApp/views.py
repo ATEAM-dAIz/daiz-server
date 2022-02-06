@@ -28,13 +28,18 @@ class DiaryList(APIView): # 목록 보여줌
     def post(self, request): # 새 글 작성시
         data = json.loads(request.body)
         content = data['content'] # requset에서 content만 가져와서
+        DiaryData = {
+            'user' : request.user.pk,
+            'title' : data['title'],
+            'content' : content
+        }
         
         # 모델에 넣음
         situation = Situation(content)
         emotion = Emotion(content)
         comment = Comment(content)
         
-        serializer_Diary = DiarySerializer(data = request.data)
+        serializer_Diary = DiarySerializer(data = DiaryData)
 
         if serializer_Diary.is_valid():
             serializer_Diary.save()
