@@ -2,6 +2,10 @@ from numpy import source
 from rest_framework import serializers
 from .models import Diary, User, Diary, Ai
 from dj_rest_auth.serializers import LoginSerializer as RestAuthLoginSerializer
+from dj_rest_auth.serializers import UserDetailsSerializer
+from django.conf import settings
+from django.contrib.auth import get_user_model
+
 
 from allauth.account import app_settings as allauth_settings
 from allauth.utils import email_address_exists
@@ -12,6 +16,35 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
+
+class UserDetailsSerializer(serializers.ModelSerializer):
+    @staticmethod
+    def validate_username(username):
+        if 'allauth.account' not in settings.INSTALLED_APPS:
+            # We don't need to call the all-auth
+            # username validator unless its installed
+            return username
+
+        from allauth.account.adapter import get_adapter
+        username = get_adapter().clean_username(username)
+        return username
+
+    class Meta:
+        UserModel = get_user_model()
+        extra_fields = []
+        # see https://github.com/iMerica/dj-rest-auth/issues/181
+        # UserModel.XYZ causing attribute error while importing other
+        # classes from `serializers.py`. So, we need to check whether the auth model has
+        # the attribute or not
+        if hasattr(UserModel, 'USERNAME_FIELD'):
+            extra_fields.append(UserModel.USERNAME_FIELD)
+        if hasattr(UserModel, 'EMAIL_FIELD'):
+            extra_fields.append(UserModel.EMAIL_FIELD)
+        if hasattr(UserModel, 'name'):
+            extra_fields.append(UserModel.name)
+        model = UserModel
+        fields = ('pk', *extra_fields)
+        read_only_fields = ('email',)
 
 class RegisterSerializer(serializers.Serializer):
     email = serializers.EmailField(required=allauth_settings.EMAIL_REQUIRED)
