@@ -6,6 +6,7 @@
 pip install -r requirements.txt
 ```
 ### kobert 설치
+- Windows
 ``` C
 pip install git+https://git@github.com/Jsgithubchannel/KoBERT.git@master
 ```
@@ -20,3 +21,6 @@ python manage.py makemigrations
 ``` C
 python manage.py migrate
 ```
+- 테이블 생성이 안될 시 https://stackoverflow.com/a/62454561
+
+
