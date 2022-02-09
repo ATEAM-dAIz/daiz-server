@@ -11,8 +11,6 @@ import json
 from .serializers import DiarySerializer, AiSerializer
 from .models import Diary, Ai
 
-from dAIzApp.ai.daiz import Situation, Emotion, Comment
-
 # Create your views here.
 
 @permission_classes((IsAuthenticated, ))
@@ -34,24 +32,10 @@ class DiaryList(APIView): # 목록 보여줌
             'content' : content
         }
         
-        # 모델에 넣음
-        situation = Situation(content)
-        emotion = Emotion(content)
-        comment = Comment(content)
-        
         serializer_Diary = DiarySerializer(data = DiaryData)
 
         if serializer_Diary.is_valid():
             serializer_Diary.save()
-            AiData = { # 모델 결과를 딕셔너리로 통합
-                'did' : serializer_Diary.data['id'],
-                'situation' : situation,
-                'emotion' : emotion,
-                'comment' : comment
-            }
-            serializer_Ai = AiSerializer(data = AiData)
-            if serializer_Ai.is_valid():
-                serializer_Ai.save() # Ai 테이블에 저장
             return Response(serializer_Diary.data, status=status.HTTP_201_CREATED)
         return Response(serializer_Diary.errors, status=status.HTTP_400_BAD_REQUEST)
 
