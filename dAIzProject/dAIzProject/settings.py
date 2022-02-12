@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     
     'allauth', # 회원가입
     'allauth.account', # 회원가입
+    'allauth.socialaccount',
     'dj_rest_auth',
     'dj_rest_auth.registration', # 회원가입
     
