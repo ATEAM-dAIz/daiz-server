@@ -1,16 +1,22 @@
 # daiz-server
 
-## 1. 준비🛠
-### reuirements.txt 설치
+## 준비🛠
+### 1. 인공지능 모델 학습
+- [situation.pt](https://github.com/ATEAM-dAIz/daiz-training-situation)
+
+- [emotion.pt](https://github.com/ATEAM-dAIz/daiz-training-emotion)
+
+- [comment.pt](https://github.com/ATEAM-dAIz/daiz-training-comment)
+
+### 2. reuirements.txt 설치
 ``` C
 pip install -r requirements.txt
 ```
-### kobert 설치
-- Windows
+### 3. kobert 설치
 ``` C
 pip install git+https://git@github.com/Jsgithubchannel/KoBERT.git@master
 ```
-### 마이그레이션 적용 
+### 4. 마이그레이션 적용 
 ``` C
 python manage.py makemigrations
 ```
