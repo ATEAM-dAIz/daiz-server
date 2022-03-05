@@ -60,7 +60,7 @@ class RegisterSerializer(serializers.Serializer):
         if allauth_settings.UNIQUE_EMAIL:
             if email and email_address_exists(email):
                 raise serializers.ValidationError(
-                    _("A user is already registered with this e-mail address."))
+                     "이미 사용 중인 이메일입니다. ")
         return email
     
     def validate_password1(self, password):
