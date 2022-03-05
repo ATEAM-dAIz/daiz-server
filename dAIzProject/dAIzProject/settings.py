@@ -208,9 +208,12 @@ REST_FRAMEWORK = {
     ),
 }
 
-REST_AUTH_REGISTER_SERIALIZERS = {'REGISTER_SERIALIZER': 'dAIzApp.serializers.RegisterSerializer',}
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'dAIzApp.serializers.RegisterSerializer',
+}
 REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'dAIzApp.serializers.LoginSerializer',
     'USER_DETAILS_SERIALIZER': 'dAIzApp.serializers.UserDetailsSerializer',
+    'PASSWORD_RESET_SERIALIZER': 'dAIzApp.serializers.CustomPasswordResetSerializer',
 }
 
