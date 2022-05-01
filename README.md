@@ -29,6 +29,9 @@ python manage.py migrate
 ```
 - 테이블 생성이 안될 시 https://stackoverflow.com/a/62454561
 
+
+
+
 # 📝 dAIz (데이즈)
 
 ## 프로젝트 소개
