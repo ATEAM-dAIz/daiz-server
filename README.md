@@ -12,7 +12,7 @@
 ``` C
 pip install -r requirements.txt
 ```
-### 3. kobert 설치
+### 3. kobert 설치(Windows 환경에 적합하도록 requirements.txt 수정한 KoBERT 입니다.)
 ``` C
 pip install git+https://git@github.com/Jsgithubchannel/KoBERT.git@master
 ```
