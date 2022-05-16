@@ -10,6 +10,16 @@ from allauth.utils import email_address_exists
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
 
+from django.contrib.auth.tokens import default_token_generator
+from dj_rest_auth.forms import AllAuthPasswordResetForm
+from dj_rest_auth.serializers import PasswordResetSerializer
+from django.contrib.sites.shortcuts import get_current_site
+from django.urls.base import reverse
+from allauth.utils import build_absolute_uri
+from allauth.account.utils import user_pk_to_url_str, user_username
+from allauth.account import app_settings
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -50,7 +60,7 @@ class RegisterSerializer(serializers.Serializer):
         if allauth_settings.UNIQUE_EMAIL:
             if email and email_address_exists(email):
                 raise serializers.ValidationError(
-                    _("A user is already registered with this e-mail address."))
+                     "이미 사용 중인 이메일입니다. ")
         return email
     
     def validate_password1(self, password):
@@ -78,6 +88,45 @@ class RegisterSerializer(serializers.Serializer):
         user.name = self.cleaned_data.get('name')
         user.save()
         return user
+
+class CustomAllAuthPasswordResetForm(AllAuthPasswordResetForm):
+    def save(self, request, **kwargs):
+        current_site = get_current_site(request)
+        email = self.cleaned_data['email']
+        token_generator = kwargs.get('token_generator',
+                                     default_token_generator)
+
+        for user in self.users:
+
+            temp_key = token_generator.make_token(user)
+
+            # save it to the password reset model
+            # password_reset = PasswordReset(user=user, temp_key=temp_key)
+            # password_reset.save()
+
+            # send the password reset email
+            path = reverse(
+                'password_reset_confirm',
+                args=[user_pk_to_url_str(user), temp_key],
+            )
+            url = build_absolute_uri(None, path) # PASS NONE INSTEAD OF REQUEST
+
+            context = {
+                'current_site': current_site,
+                'user': user,
+                'password_reset_url': url,
+                'request': request,
+            }
+            if app_settings.AUTHENTICATION_METHOD != app_settings.AuthenticationMethod.EMAIL:
+                context['username'] = user_username(user)
+            get_adapter(request).send_mail('account/email/password_reset_key',
+                                           email, context)
+        return self.cleaned_data['email']
+
+class CustomPasswordResetSerializer(PasswordResetSerializer):
+    @property
+    def password_reset_form_class(self):
+        return CustomAllAuthPasswordResetForm
 
 class LoginSerializer(RestAuthLoginSerializer):
     username = None

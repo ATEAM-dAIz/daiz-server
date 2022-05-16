@@ -21,4 +21,5 @@ urlpatterns = [
     path('', include('dAIzApp.urls')),
     path('', include('dj_rest_auth.urls')), # 로그인, 로그아웃
     path('', include('allauth.urls')),
+    path('', include('django.contrib.auth.urls'))
 ]

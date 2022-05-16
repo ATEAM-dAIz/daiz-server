@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist', # 토큰 관리
     
     'corsheaders',
+    'sslserver',
 ]
 
 MIDDLEWARE = [
@@ -77,9 +78,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_WHITELIST = ('http://127.0.0.1:3000', 'http://localhost:3000', 'http://localhost:127', 'http://localhost:50264')
+CORS_ORIGIN_WHITELIST = ('http://localhost:3001', 'https://daiz-front.herokuapp.com', 'https://www.daizdiary.com', 'http://www.daizdiary.com')
 CORS_ALLOW_CREDENTIALS = True
-
 ROOT_URLCONF = 'dAIzProject.urls'
 
 TEMPLATES = [
@@ -136,13 +136,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -164,12 +164,19 @@ AUTH_USER_MODEL = 'dAIzApp.User'
 SITE_ID = 1
 
 # django-allauth 세팅
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-ACCOUNT_CONFIRM_EMAIL_ON_GET = False
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com' # 메일 호스트 서버
+EMAIL_PORT = '587' # gmail과 통신하는 포트
+EMAIL_HOST_USER = get_secret("EMAIL") # 발신할 이메일
+EMAIL_HOST_PASSWORD = get_secret("PASSWORD") # 발신할 메일의 비밀번호
+EMAIL_USE_TLS = True # TLS 보안 방법
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "dAIz"# 이메일에 자동으로 표시되는 사이트 정보
 
 REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'daiz-auth'
@@ -201,9 +208,12 @@ REST_FRAMEWORK = {
     ),
 }
 
-REST_AUTH_REGISTER_SERIALIZERS = {'REGISTER_SERIALIZER': 'dAIzApp.serializers.RegisterSerializer',}
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'dAIzApp.serializers.RegisterSerializer',
+}
 REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'dAIzApp.serializers.LoginSerializer',
     'USER_DETAILS_SERIALIZER': 'dAIzApp.serializers.UserDetailsSerializer',
+    'PASSWORD_RESET_SERIALIZER': 'dAIzApp.serializers.CustomPasswordResetSerializer',
 }
 

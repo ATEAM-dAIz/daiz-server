@@ -5,10 +5,11 @@ from .views import DiaryList, DiaryDetail, AiDetail
 
 urlpatterns = [
     path('signup/', include('dj_rest_auth.registration.urls')), # 회원가입
+    path('signup', include('dj_rest_auth.registration.urls')), # 회원가입
     
-    path('diary/', DiaryList.as_view()),
-    path('diary/<int:pk>/', DiaryDetail.as_view()),
-    path('ai/<int:pk>/', AiDetail.as_view()),
+    path('diary/', DiaryList.as_view()), # 일기 목록
+    path('diary/<int:pk>/', DiaryDetail.as_view()), # 특정 일기              pk : 일기id
+    path('diary/<int:pk>/ai/', AiDetail.as_view()), # 특정 일기의 AI결과      pk : 일기id
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
