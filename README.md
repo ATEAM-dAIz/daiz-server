@@ -12,7 +12,7 @@
 ``` C
 pip install -r requirements.txt
 ```
-### 3. kobert 설치
+### 3. KoBERT 설치(Windows 환경에 적합하도록 requirements.txt 수정한 KoBERT 입니다.)
 ``` C
 pip install git+https://git@github.com/Jsgithubchannel/KoBERT.git@master
 ```
@@ -28,6 +28,9 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 - 테이블 생성이 안될 시 https://stackoverflow.com/a/62454561
+
+
+
 
 # 📝 dAIz (데이즈)
 
